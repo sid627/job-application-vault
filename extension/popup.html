@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Save Job</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main>
+    <section id="details-view">
+      <h1>Save Job</h1>
+
+      <form id="job-form">
+      <label for="job-title">Job title</label>
+      <input id="job-title" name="jobTitle" type="text" maxlength="255" required>
+
+      <label for="company-name">Company name</label>
+      <input id="company-name" name="companyName" type="text" maxlength="255" required>
+
+      <label for="location">Location</label>
+      <input id="location" name="location" type="text" maxlength="255">
+
+      <label for="job-url">Job URL</label>
+      <input id="job-url" name="jobUrl" type="url" maxlength="2048" required>
+
+      <label for="description">Description</label>
+      <textarea id="description" name="description" rows="7"></textarea>
+
+      <div class="button-row">
+        <button id="save-button" type="submit">Save Job</button>
+        <button id="discard-button" class="discard-button" type="button">Discard</button>
+      </div>
+      <p id="status" role="status" aria-live="polite">Reading this page…</p>
+      </form>
+    </section>
+
+    <section id="feedback-view" class="feedback-view hidden" aria-live="polite">
+      <span id="feedback-icon" class="feedback-icon" aria-hidden="true">✓</span>
+      <h1 id="feedback-title">Job saved successfully</h1>
+      <p id="feedback-message">The job is now in your application vault.</p>
+    </section>
+
+  </main>
+
+  <script src="popup.js"></script>
+</body>
+</html>

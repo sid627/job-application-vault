@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Job Application Vault",
+  "version": "0.1.0",
+  "description": "Capture the current job posting and save it to Job Application Vault.",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "http://localhost:8080/*"
+  ],
+  "action": {
+    "default_title": "Save Job",
+    "default_popup": "popup.html"
+  }
+}

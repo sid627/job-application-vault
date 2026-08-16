@@ -1,0 +1,29 @@
+# IntelliJ
+.idea/
+*.iml
+
+# Java / Maven
+target/
+**/target/
+
+# Environment / secrets
+.env
+.env.*
+backend/.env
+
+# Node dependencies
+node_modules/
+**/node_modules/
+
+# Angular generated files
+.angular/
+**/.angular/
+dist/
+**/dist/
+
+# VS Code
+.vscode/
+**/.vscode/
+
+# Logs
+*.log

@@ -1,0 +1,128 @@
+<header class="page-header">
+  <div>
+    <h1>Applied Jobs</h1>
+    <p class="subtitle">Track and manage the jobs you've saved and applied to.</p>
+  </div>
+</header>
+
+<main>
+  @if (loading()) {
+    <section class="state-card" aria-live="polite">
+      <span class="spinner" aria-hidden="true"></span>
+      <p>Loading saved jobs…</p>
+    </section>
+  } @else if (error()) {
+    <section class="state-card error" role="alert">
+      <h2>Jobs could not be loaded</h2>
+      <p>{{ error() }}</p>
+    </section>
+  } @else if (jobs().length === 0) {
+    <section class="state-card">
+      <h2>0 jobs</h2>
+      <p>Open a job posting and use the browser extension to save it.</p>
+    </section>
+  } @else {
+    <section class="filters" aria-label="Filter jobs">
+      <label>
+        <span>Company</span>
+        <select #companyFilter [value]="selectedCompany()" (change)="selectedCompany.set(companyFilter.value)">
+          <option value="">All companies</option>
+          @for (company of companies(); track company) {
+            <option [value]="company">{{ company }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        <span>Location</span>
+        <select #locationFilter [value]="selectedLocation()" (change)="selectedLocation.set(locationFilter.value)">
+          <option value="">All locations</option>
+          @for (location of locations(); track location) {
+            <option [value]="location">{{ location }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        <span>Status</span>
+        <select #statusFilter [value]="selectedStatus()" (change)="selectedStatus.set(statusFilter.value)">
+          <option value="">All statuses</option>
+          @for (status of statuses; track status.value) {
+            <option [value]="status.value">{{ status.label }}</option>
+          }
+        </select>
+      </label>
+
+      <button class="clear-filters" type="button" [disabled]="!hasActiveFilters()" (click)="clearFilters()">
+        Clear filters
+      </button>
+    </section>
+
+    <p class="count">{{ filteredJobs().length }} {{ filteredJobs().length === 1 ? 'job' : 'jobs' }}</p>
+
+    @if (filteredJobs().length === 0) {
+      <section class="state-card no-matches">
+        <h2>No jobs match your filters.</h2>
+        <button type="button" class="clear-filters inline" (click)="clearFilters()">Clear filters</button>
+      </section>
+    } @else {
+      <section class="job-grid" aria-label="Job applications">
+      @for (job of filteredJobs(); track job.id) {
+        <article class="job-card">
+          <div class="card-heading">
+            <div>
+              <h2>{{ job.jobTitle }}</h2>
+              <p class="company">{{ job.companyName }}</p>
+            </div>
+            <span class="status">{{ statusLabel(job.status) }}</span>
+          </div>
+
+          <dl>
+            <div>
+              <dt>Location</dt>
+              <dd>{{ job.location || 'Not specified' }}</dd>
+            </div>
+            <div>
+              <dt>Saved</dt>
+              <dd>{{ job.savedAt | date: 'medium' }}</dd>
+            </div>
+            @if (job.appliedAt) {
+              <div>
+                <dt>Applied</dt>
+                <dd>{{ job.appliedAt | date: 'mediumDate' }}</dd>
+              </div>
+            }
+            <div class="status-editor">
+              <dt>Status</dt>
+              <dd>
+                <select
+                  #jobStatus
+                  class="status-select"
+                  [value]="job.status"
+                  [disabled]="updatingJobIds().has(job.id)"
+                  (change)="updateJobStatus(job, jobStatus.value, jobStatus)"
+                  [attr.aria-label]="'Update status for ' + job.jobTitle"
+                >
+                  @for (status of statuses; track status.value) {
+                    <option [value]="status.value">{{ status.label }}</option>
+                  }
+                </select>
+                @if (updatingJobIds().has(job.id)) {
+                  <span class="update-note">Saving…</span>
+                }
+                @if (statusUpdateErrors()[job.id]) {
+                  <span class="update-error" role="alert">{{ statusUpdateErrors()[job.id] }}</span>
+                }
+              </dd>
+            </div>
+          </dl>
+
+          <a class="job-link" [href]="job.jobUrl" target="_blank" rel="noopener noreferrer">
+            Open job posting
+          </a>
+        </article>
+      }
+      </section>
+    }
+  }
+</main>
