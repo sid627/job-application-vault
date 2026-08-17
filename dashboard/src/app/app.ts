@@ -62,7 +62,7 @@ export class App implements OnInit {
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: (jobs) => this.jobs.set(jobs),
-        error: () => this.error.set('Unable to load jobs. Make sure the backend is running on localhost:8080.'),
+        error: () => this.error.set('Unable to load jobs. Make sure the backend is running.'),
       });
   }
 

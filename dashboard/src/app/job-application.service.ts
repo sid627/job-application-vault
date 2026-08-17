@@ -7,7 +7,7 @@ import { ApplicationStatus, JobApplication } from './job-application.model';
 @Injectable({ providedIn: 'root' })
 export class JobApplicationService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8080/api/jobs';
+  private readonly apiUrl = 'https://job-application-vault-production.up.railway.app/api/jobs';
 
   getJobs(): Observable<JobApplication[]> {
     return this.http.get<JobApplication[]>(this.apiUrl);
