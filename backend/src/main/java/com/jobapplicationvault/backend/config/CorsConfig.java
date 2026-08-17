@@ -10,9 +10,9 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOriginPatterns("chrome-extension://*", "http://localhost:4200")
+                .allowedOriginPatterns("chrome-extension://*", "http://localhost:4200","https://job-application-vault.vercel.app")
                 .allowedMethods("GET", "POST", "PUT", "OPTIONS")
-                .allowedHeaders("Content-Type")
+                .allowedHeaders("*")
                 .maxAge(3600);
     }
 }

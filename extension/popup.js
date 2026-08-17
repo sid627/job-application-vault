@@ -1,4 +1,4 @@
-const API_URL = "http://job-application-vault-production.up.railway.app/api/jobs";
+const API_URL = "https://job-application-vault-production.up.railway.app/api/jobs";
 
 const form = document.querySelector("#job-form");
 const saveButton = document.querySelector("#save-button");
