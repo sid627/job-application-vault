@@ -74,6 +74,14 @@ select:focus {
   outline: 2px solid rgb(49 95 195 / 16%);
 }
 
+select.placeholder {
+  color: #8a93a5;
+}
+
+.filters select option {
+  color: #182033;
+}
+
 .clear-filters {
   min-height: 38px;
   padding: 7px 10px;

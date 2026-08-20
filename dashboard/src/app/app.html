@@ -25,8 +25,13 @@
     <section class="filters" aria-label="Filter jobs">
       <label>
         <span>Company</span>
-        <select #companyFilter [value]="selectedCompany()" (change)="selectedCompany.set(companyFilter.value)">
-          <option value="">All companies</option>
+        <select
+          #companyFilter
+          [class.placeholder]="!selectedCompany()"
+          [value]="selectedCompany()"
+          (change)="selectedCompany.set(companyFilter.value)"
+        >
+          <option value="" disabled hidden>All companies</option>
           @for (company of companies(); track company) {
             <option [value]="company">{{ company }}</option>
           }
@@ -35,8 +40,13 @@
 
       <label>
         <span>Location</span>
-        <select #locationFilter [value]="selectedLocation()" (change)="selectedLocation.set(locationFilter.value)">
-          <option value="">All locations</option>
+        <select
+          #locationFilter
+          [class.placeholder]="!selectedLocation()"
+          [value]="selectedLocation()"
+          (change)="selectedLocation.set(locationFilter.value)"
+        >
+          <option value="" disabled hidden>All locations</option>
           @for (location of locations(); track location) {
             <option [value]="location">{{ location }}</option>
           }
@@ -45,8 +55,13 @@
 
       <label>
         <span>Status</span>
-        <select #statusFilter [value]="selectedStatus()" (change)="selectedStatus.set(statusFilter.value)">
-          <option value="">All statuses</option>
+        <select
+          #statusFilter
+          [class.placeholder]="!selectedStatus()"
+          [value]="selectedStatus()"
+          (change)="selectedStatus.set(statusFilter.value)"
+        >
+          <option value="" disabled hidden>All statuses</option>
           @for (status of statuses; track status.value) {
             <option [value]="status.value">{{ status.label }}</option>
           }

@@ -35,10 +35,18 @@ export class App implements OnInit {
     [...new Set(this.jobs().map((job) => job.companyName).filter(Boolean))].sort((a, b) => a.localeCompare(b)),
   );
 
-  protected readonly locations = computed(() =>
-    [...new Set(this.jobs().map((job) => job.location).filter((location): location is string => Boolean(location)))]
-      .sort((a, b) => a.localeCompare(b)),
-  );
+  protected readonly locations = computed(() => {
+    const normalizedLocations = new Map<string, string>();
+
+    for (const job of this.jobs()) {
+      const location = this.normalizeLocation(job.location);
+      if (location) {
+        normalizedLocations.set(location.toLocaleLowerCase(), location);
+      }
+    }
+
+    return [...normalizedLocations.values()].sort((a, b) => a.localeCompare(b));
+  });
 
   protected readonly filteredJobs = computed(() => {
     const company = this.selectedCompany();
@@ -47,7 +55,7 @@ export class App implements OnInit {
 
     return this.jobs().filter((job) =>
       (!company || job.companyName === company)
-      && (!location || job.location === location)
+      && (!location || this.normalizeLocation(job.location).localeCompare(location, undefined, { sensitivity: 'accent' }) === 0)
       && (!status || job.status === status),
     );
   });
@@ -74,6 +82,10 @@ export class App implements OnInit {
 
   protected statusLabel(status: ApplicationStatus): string {
     return this.statuses.find((option) => option.value === status)?.label ?? status;
+  }
+
+  private normalizeLocation(location: string | null): string {
+    return location?.split(',', 1)[0].trim() ?? '';
   }
 
   protected updateJobStatus(job: JobApplication, status: string, select: HTMLSelectElement): void {
